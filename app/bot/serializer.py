@@ -1,10 +1,11 @@
 import json
 from pathlib import Path
 
-def serialize_to_json(data, screenshot_b64, search):
+def serialize_to_json(data, screenshot_b64, search, filters):
     Path("data/outputs").mkdir(parents=True, exist_ok=True)
     output = {
         "pesquisa": search,
+        "filtros":filters,
         "dados": data,
         "screenshot_base64": screenshot_b64
     }
