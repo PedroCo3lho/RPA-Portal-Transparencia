@@ -174,4 +174,4 @@ cython_debug/
 .pypirc
 
 # Ignorar o diretório de saídas
-app/data/outputs/
+bot/data/outputs/

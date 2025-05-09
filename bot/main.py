@@ -1,7 +1,6 @@
 import argparse
 from bot.driver import create_driver, accept_cookies
-from bot.navigator import navigate_to_page
-from bot.extractor import extract_data
+from bot.navigator import navigate_to_page, navigate_and_collect_data
 from bot.screenshot import take_screenshot
 from bot.serializer import serialize_to_json
 
@@ -16,9 +15,16 @@ def main():
     accept_cookies(driver)
 
     try:
-        navigate_to_page(driver, args.search, args.filters)
-        data = extract_data(driver)
+        # Navigate to the search page and apply filters
+        navigate_to_page(driver, args.search)
+
+        # Collect data from the results
+        data = navigate_and_collect_data(driver)
+
+        # Take a screenshot of the final state
         screenshot = take_screenshot(driver)
+
+        # Serialize the data to JSON
         serialize_to_json(data, screenshot, args.search, args.filters)
     finally:
         driver.quit()
