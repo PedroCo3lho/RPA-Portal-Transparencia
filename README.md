@@ -13,7 +13,7 @@ Projeto em Python + Selenium para automação de coleta de dados no [Portal da T
 | Aplicar o filtro obrigatório: **"BENEFICIÁRIO DE PROGRAMA SOCIAL"**    | ❌      |
 | Coletar os dados dos **10 primeiros resultados**                       | ✅      |
 | Capturar screenshot da tela e converter em **Base64**                  | ✅      |
-| Coletar detalhes dos benefícios (Auxílio Brasil, Emergencial, Bolsa Família) | ❌      |
+| Coletar detalhes dos benefícios (Auxílio Brasil, Emergencial, Bolsa Família) |  50% Apenas o link de cada     |
 | Exportar os dados em um arquivo **JSON**                               | ✅      |
 | Operar em **modo headless** e suportar execuções simultâneas           | ❌      |
 
@@ -32,7 +32,7 @@ Projeto em Python + Selenium para automação de coleta de dados no [Portal da T
 
 ```bash
 rpa-bot/
-├── app/
+├── modules/
 │   ├── main.py                  # Script principal de execução
 │   ├── bot/
 │   │   ├── __init__.py          
@@ -58,21 +58,20 @@ Siga os passos abaixo para configurar e executar o robô:
     cd RPA-Portal-Transparencia
     ```
 
-2. **Instale as dependências**:
+2. **Configuração de ambiente**:
+    - Certifique-se de ter o Microsoft Edge e o Python instalado.
+
+3. **Instale as dependências**:
 
     ```bash
     pip install -r requirements.txt
     ```
 
-3. **Configuração de ambiente**:
-    - Certifique-se de ter o Microsoft Edge instalado.
-    - Certifique-se de que o Edge WebDriver está configurado no `PATH`.
-
 4. **Execute o script principal**:
 
     ```bash
-    cd app
-    python3 main.py --search "<Nome|CPF|NIS>"
+    cd bot
+    python main.py --search "<Nome|CPF|NIS>"
     ```
 
 5. **Verifique os resultados**:
@@ -82,7 +81,7 @@ Siga os passos abaixo para configurar e executar o robô:
 ## 🛠️ Dificuldades Enfrentadas
 
 1. **Erro em relação ao Headless**:
-    - Durante a codificação, enfrentei erros de execução em que o Python não conseguia interpretar os elementos da página. Aparentemente, o problema está relacionado ao meu hardware. Planejo testar em um ambiente na nuvem para implementar a concorrência e o modo headless.
+    - Durante a codificação, enfrentei erros de execução em que o Python não conseguia interpretar os elementos da página. Aparentemente, o problema está relacionado ao meu hardware ou SO. Planejo testar em um ambiente na nuvem para implementar a concorrência e o modo headless.
 
 ## 📚 Referências
 
