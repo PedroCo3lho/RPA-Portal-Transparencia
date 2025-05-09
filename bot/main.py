@@ -1,13 +1,14 @@
 import argparse
-from bot.driver import create_driver, accept_cookies
-from bot.navigator import navigate_to_page, navigate_and_collect_data
-from bot.screenshot import take_screenshot
-from bot.serializer import serialize_to_json
+from modules.driver import create_driver, accept_cookies
+from modules.navigator import navigate_to_page
+from modules.extractor import navigate_and_collect_data
+from modules.screenshot import take_screenshot
+from modules.serializer import serialize_to_json
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--search', required=True, help='CPF ou Nome do beneficiário')
-    parser.add_argument('--filters', nargs='*', help='Lista de filtros (ex: servidor programa_social)')
+    parser.add_argument('--filters', nargs='*', help='Lista de filtros (ex: servidor programa_social)') # not implemented yet
     args = parser.parse_args()
 
     driver = create_driver()
