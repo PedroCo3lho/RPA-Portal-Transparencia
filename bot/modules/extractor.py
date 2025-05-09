@@ -3,17 +3,26 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-def navigate_and_collect_data(driver):
+def navigate_and_collect_data(driver, search: str):
     base_url = "https://portaldatransparencia.gov.br"
     results = []
 
-    while True:  # Loop to handle pagination
-        # Wait for the results to load
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".link-busca-nome"))
-        )
+    while True:  
+        try:
+            # Espera retornar resultados da busca
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".link-busca-nome"))
+            )
+        except Exception:
+            # Caso nenhum resultado seja encontrado dentro do tempo limite
+            results.append({"error": f"Foram encontrados 0 resultados para o termo '{search}'."})
+            return results
 
-        # Locate all names in the results
+        # Verifica se a busca retornou resultados
+        if not driver.find_elements(By.CSS_SELECTOR, ".link-busca-nome"):
+            results.append({"error": f"Foram encontrados 0 resultados para o termo '{search}'."})
+            break
+        
         items = driver.find_elements(By.CSS_SELECTOR, ".link-busca-nome")
         for index, item in enumerate(items):
             try:
@@ -21,19 +30,17 @@ def navigate_and_collect_data(driver):
                 items = driver.find_elements(By.CSS_SELECTOR, ".link-busca-nome")
                 item = items[index]
 
-                # Extract name and CPF from the results page
+                # Extract name, CPF and link from the results page
                 name = item.text
                 cpf = driver.find_elements(By.CSS_SELECTOR, ".br-item strong")[index].text
-
-                # Get the link and ensure it's a full URL
                 link = item.get_attribute("href")
-                if not link.startswith("http"):  # Check if the link is relative
-                    link = f"{base_url}{link}"  # Concatenate base_url with the relative link
+                if not link.startswith("http"): 
+                    link = f"{base_url}{link}"  
 
-                print(f"Navigating to: {link}")  # Debugging the URL
+                print(f"Navigating to: {link}")  
                 driver.get(link)
 
-                # Wait for the detailed page to load
+                # Wait for the page load
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, ".dados-tabelados"))
                 )
@@ -82,13 +89,8 @@ def extract_detailed_data(driver):
     data = {}
 
     try:
-        # Extract general information
-        name = driver.find_element(By.CSS_SELECTOR, ".dados-tabelados .col-sm-4 span").text.strip()
-        cpf = driver.find_element(By.CSS_SELECTOR, ".dados-tabelados .col-sm-3 span").text.strip()
+        # Extract person location
         location = driver.find_element(By.CSS_SELECTOR, ".dados-tabelados .col-sm-3:nth-child(3) span").text.strip()
-
-        data["name"] = name
-        data["cpf"] = cpf
         data["location"] = location
 
         # Click on "Recebimentos de recursos"

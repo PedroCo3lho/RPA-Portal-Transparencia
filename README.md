@@ -16,6 +16,7 @@ Projeto em Python + Selenium para automação de coleta de dados no [Portal da T
 | Coletar detalhes dos benefícios (Auxílio Brasil, Emergencial, Bolsa Família) |  50% Apenas o link de cada     |
 | Exportar os dados em um arquivo **JSON**                               | ✅      |
 | Operar em **modo headless** e suportar execuções simultâneas           | ❌      |
+| Tratamento de erros (input e 0 resultados )                            | ✅      |
 
 ---
 
